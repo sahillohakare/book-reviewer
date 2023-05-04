@@ -1,14 +1,14 @@
 import Header from "./components/Header";
 import Cards from "./components/Cards";
-import AddMovie from "./components/AddMovie";
+import AddBook from "./components/AddBook";
 import { Routes,Route } from "react-router-dom";
 function App() {
   return (
-    <div className="App">
+    <div className="App relative">
       <Header/>
       <Routes>
         <Route path="/" element={<Cards/>}/>
-        <Route path="/addmovie" element={<AddMovie/>}/>
+        <Route path="/addmovie" element={<AddBook/>}/>
       </Routes>
     </div>
   );

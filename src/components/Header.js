@@ -4,7 +4,7 @@ import { Button } from '@mui/base';
 import { Link } from 'react-router-dom';
 const Header = () => {
     return (
-        <div className='text-3xl text-red-500 font-bold border-b-2 border-gray-500 flex justify-between items-center'>
+        <div className=' sticky top-0 z-10 bg-black text-3xl text-red-500 font-bold border-b-2 border-gray-500 flex justify-between items-center'>
             <span> Book
                 <span className="text-white">
                     Reviewer

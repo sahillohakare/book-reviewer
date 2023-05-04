@@ -1,11 +1,42 @@
 import React, { useState } from 'react'
-
-const AddMovie = () => {
+import { TailSpin } from 'react-loader-spinner';
+import { addDoc } from 'firebase/firestore';
+import { bookRef } from '../firebase/firebase';
+import swal from 'sweetalert';
+const AddBook = () => {
     const [form, setForm] = useState({
         title: "",
         year: "",
-        description: ""
+        description: "",
+        image: ""
     });
+    const [loading, setLoading] = useState(false);
+    const addBook = async () => {
+        try {
+
+            setLoading(true);
+            console.log("started")
+
+            await addDoc(bookRef, form);
+            // swal({
+            //     title: "Successfully added!",
+            //     icon: "success",
+            //     buttons: false,
+            //     timer: 3000
+            // })
+            console.log("Done")
+            setLoading(false)
+        }
+        catch (err) {
+            swal({
+                title: err,
+                icon: "error",
+                buttons: false,
+                timer: 3000
+            })
+        }
+
+    }
     return (
         <div className=''>
             <section class="text-gray-600 body-font relative">
@@ -44,17 +75,35 @@ const AddMovie = () => {
                             </div>
                             <div class="p-2 w-full">
                                 <div class="relative">
+                                    <label for="message" class="leading-7 text-sm text-gray-300">Image Link</label>
+                                    <input
+                                        id="message"
+                                        name="message"
+                                        value={form.image}
+                                        onChange={(e) => setForm({ ...form, image: e.target.value })}
+                                        class="w-full bg-white rounded border border-gray-300
+                                         focus:border-indigo-500 focus:bg-white focus:ring-2
+                                          focus:ring-indigo-200 h-20text-base outline-none
+                                           text-gray-700 py-1 px-3 resize-none leading-6 transition-colors
+                                            duration-200 ease-in-out"/>
+                                </div>
+                            </div>
+                            <div class="p-2 w-full">
+                                <div class="relative">
                                     <label for="message" class="leading-7 text-sm text-gray-300">Description</label>
                                     <textarea
                                         id="message"
                                         name="message"
                                         value={form.description}
-                                        onChange={(e)=> setForm({...form,description:e.target.value})}
+                                        onChange={(e) => setForm({ ...form, description: e.target.value })}
                                         class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
                                 </div>
                             </div>
                             <div class="p-2 w-full">
-                                <button class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Submit</button>
+                                <button onClick={addBook} class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none
+                                 hover:bg-red-600 rounded text-lg">
+                                    {loading ? <TailSpin color='white' height={25} /> : "Submit"}
+                                </button>
                             </div>
 
                         </div>
@@ -65,4 +114,4 @@ const AddMovie = () => {
     )
 }
 
-export default AddMovie
+export default AddBook

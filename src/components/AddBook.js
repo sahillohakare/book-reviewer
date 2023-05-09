@@ -12,20 +12,28 @@ const AddBook = () => {
     });
     const [loading, setLoading] = useState(false);
     const addBook = async () => {
+        setLoading(true);
         try {
 
-            setLoading(true);
+            
             console.log("started")
 
-            await addDoc(bookRef, form);
-            // swal({
-            //     title: "Successfully added!",
-            //     icon: "success",
-            //     buttons: false,
-            //     timer: 3000
-            // })
-            console.log("Done")
-            setLoading(false)
+            await addDoc(bookRef, {
+                title:form.title,
+                year:form.year,
+                description:form.description,
+                image:form.image
+               
+            });
+            console.log("Done")     
+            swal({
+                title: "Successfully added!",
+                icon: "success",
+                buttons: false,
+                timer: 3000
+            })
+            
+            
         }
         catch (err) {
             swal({
@@ -35,6 +43,7 @@ const AddBook = () => {
                 timer: 3000
             })
         }
+        setLoading(false);
 
     }
     return (

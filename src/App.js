@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import Cards from "./components/Cards";
 import AddBook from "./components/AddBook";
 import { Routes,Route } from "react-router-dom";
+import Detail from "./components/Detail";
 function App() {
   return (
     <div className="App relative">
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Cards/>}/>
         <Route path="/addmovie" element={<AddBook/>}/>
+        <Route path="/detail/:id" element={<Detail/>}/>
       </Routes>
     </div>
   );

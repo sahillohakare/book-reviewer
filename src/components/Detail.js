@@ -13,7 +13,9 @@ const Detail = () => {
         title: "",
         year: "",
         image: "",
-        description: ""
+        description: "",
+        rating:0,
+        rated:0
     });
     const [loading, setLoading] = useState(false);
     useEffect(() => {
@@ -38,11 +40,11 @@ const Detail = () => {
                         <ReactStars
                             size={20}
                             half={true}
-                            value={5}
+                            value={data.rating/data.rated}
                             edit={false} />
                         <p className='mt-3'>{data.description}
                         </p>
-                        <Reviews id={id}/>
+                        <Reviews id={id} prevRating = {data.rating} userRated={data.rated}/>
                     </div>
                 </>
             }

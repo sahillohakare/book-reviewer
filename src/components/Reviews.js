@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ReactStars from 'react-stars'
 import { ThreeCircles } from 'react-loader-spinner';
 import { reviewsRef, db } from '../firebase/firebase';
 import { addDoc, doc, updateDoc, query, where, getDocs } from 'firebase/firestore';
 import swal from 'sweetalert';
 import { UploadFile } from '@mui/icons-material';
+import App, { AppState } from "../App"
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Reviews = ({ id, prevRating, userRated }) => {
+    const useAppState = useContext(AppState);
+    const navigate = useNavigate();
     const [rating, setRating] = useState(0);
     const [loading, setloading] = useState(false);
     const [reviewsLoading, setReviewsLoading] = useState(false);
@@ -15,17 +19,10 @@ const Reviews = ({ id, prevRating, userRated }) => {
     const sendReview = async () => {
         setloading(true);
         try {
-            // await reviewsRef.add({
-            //     bookid:id,
-            //     name:"Rohan Itankar",
-            //     rating:rating,
-            //     thought:form,
-            //     timestamp: new Date().getTime()
-            // });
-
+            if(useAppState.login){
             await addDoc(reviewsRef, {
                 bookid: id,
-                name: "Rohan Itankar",
+                name:useAppState.username ,
                 rating: rating,
                 thought: form,
                 timestamp: new Date().getTime()
@@ -43,6 +40,10 @@ const Reviews = ({ id, prevRating, userRated }) => {
                 button: false,
                 timer: 3000
             })
+        }
+        else{
+            navigate("/login");
+        }
         } catch (error) {
             swal({
                 title: error.message,

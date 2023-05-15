@@ -1,41 +1,51 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { TailSpin } from 'react-loader-spinner';
 import { addDoc } from 'firebase/firestore';
 import { bookRef } from '../firebase/firebase';
 import swal from 'sweetalert';
+import { AppState } from '../App';
+import { useNavigate } from 'react-router-dom';
 const AddBook = () => {
+    const useAppState = useContext(AppState);
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         title: "",
         year: "",
         description: "",
-        image: ""
-        ,rated:0,
-        rating:0
+        image: "",
+        rated: 0,
+        rating: 0
     });
     const [loading, setLoading] = useState(false);
     const addBook = async () => {
         setLoading(true);
         try {
+            if (useAppState.login) {
+                await addDoc(bookRef, {
+                    title: form.title,
+                    year: form.year,
+                    description: form.description,
+                    image: form.image
 
-            
-            console.log("started")
+                });
+                console.log("Done")
+                swal({
+                    title: "Successfully added!",
+                    icon: "success",
+                    buttons: false,
+                    timer: 3000
+                })
+                setForm({
+                    title:"",
+                    year:"",
+                    description:"",
+                    image:""
+                })
 
-            await addDoc(bookRef, {
-                title:form.title,
-                year:form.year,
-                description:form.description,
-                image:form.image
-               
-            });
-            console.log("Done")     
-            swal({
-                title: "Successfully added!",
-                icon: "success",
-                buttons: false,
-                timer: 3000
-            })
-            
-            
+
+            } else {
+                navigate("/login")
+            }
         }
         catch (err) {
             swal({

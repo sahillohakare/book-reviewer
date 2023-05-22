@@ -41,8 +41,6 @@ const AddBook = () => {
                     description:"",
                     image:""
                 })
-
-
             } else {
                 navigate("/login")
             }
